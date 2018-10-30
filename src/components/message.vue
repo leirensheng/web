@@ -111,19 +111,23 @@ $orange: rgb(255, 90, 0);
     color: rgb(111, 111, 111);
     margin: 0.4rem 0;
     .oneRelation {
+      line-height: 1.7rem;
+      margin-bottom: 0.3rem;
       cursor: pointer;
       // :hover:und
       .dot {
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 0.2rem;
+        height: 0.2rem;
+        position: relative;
+        top:-0.1rem;
         display: inline-block;
         border-radius: 50%;
-        background-color: $orange;
+        border:2px solid rgb(159,159,159);
         margin-right: 0.5rem;
       }
       .source {
         color: rgb(180, 180, 180);
-        font-style: italic;
+        // font-style: italic;
         display: inline-block;
         margin-left: 0.5rem;
       }
