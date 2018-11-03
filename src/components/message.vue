@@ -20,7 +20,7 @@
         <div class="relation" v-show='showAll&&article.text.length>80'>
             <div v-for="(one,index) in article.relations" :key='index' @click="openRelation(one.url)" class="oneRelation">
                 <div class="dot"></div>
-                <span>{{one.text}}</span>
+                <span>{{one.title}}</span>
                 <span class="source">{{one.source}}</span>
             </div>
         </div>

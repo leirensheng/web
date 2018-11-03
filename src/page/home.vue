@@ -38,7 +38,9 @@ import advertise from "../components/advertise";
 export default {
   data() {
     return {
-      records:[],
+      days: [],
+      lastId: "",
+      records: []
       //  [
       //   {
       //     type: "article",
@@ -102,33 +104,74 @@ export default {
   },
   methods: {
     initData() {
-      axios.get("http://192.168.0.105:7001/getNews").then((res)=> {
-        console.log(this);
-
-        this.records = res.data;
+      axios.get("http://127.0.0.1:7001/getNews?length=10").then(res => {
+        this.handleData(res.data);
+        // this.records = res.data;
       });
     },
 
-    loadMore() {
-      this.records.push({
-        type: "article",
-        date: "2018-10-27",
-        weekDay: "星期六",
-        data: [
-          {
-            title: "《荒野大镖客 救赎 2》正式发售，大获好评",
-            stars: 4,
-            text:
-              "这款由Rockstar 花费 7 年这款由Rockstar 花费 7 年这款由Rockstar 花费 7 年这款由Rockstar 花费 7 年000000000000000000000000000000000000000000000000这款由Rockstar 花费 7 年时间，开发资源比《侠盗猎车手 5》高 3 倍，光故事剧本厚达 2000 页的游戏刚刚发售，就预定了2018 年年度最佳游戏。设计师们周末在家可以玩起来了！Rockstar 花费 7 年时间，开发资源比《侠盗猎车手 5》高 3 倍，光故事Rockstar 花费 7 年时间，开发资源比《侠盗猎车手 5》高 3 倍，光故事Rockstar 花费 7 年时间，开发资源比《侠盗猎车手 5》高 3 倍，光故事"
-          },
-          {
-            title: "《荒野大镖客 救赎 2》正式发售，大获好评",
-            stars: 4,
-            text:
-              "这款由Rockstar 花费 7 年时间，开发资源比《侠盗猎车手 5》高 3 倍，光故事剧本厚达 2000 页的游戏刚刚发售，就预定了2018 年年度最佳游戏。设计师们周末在家可以玩起来了！"
-          }
-        ]
+    handleData(data, isFirstInit) {
+      data.forEach(one => {
+        one.date = one.createDate.split("T")[0];
       });
+      let curDays = [...new Set(data.map(one => one.date))];
+
+      for(let one of curDays){
+         console.log(this.days,one)
+        if (this.days.includes(one)) {
+          let target = this.records.find(oneDay => oneDay.date === one);
+          target.data.push(
+            ...data.filter(oneAritcle => oneAritcle.date === one)
+          );
+        } else {
+          var obj = {
+            type: "article",
+            date: one,
+            weekDay: this.getWeekDay(new Date(one)),
+            data: data.filter(oneAritcle => oneAritcle.date === one)
+          };
+          this.days.push(one);
+          this.records.push(obj);
+        }
+      }
+
+      if (this.days.length) {
+        this.lastId = this.records.slice(-1)[0].data.slice(-1)[0].id;
+        console.log(this.lastId);
+      }
+
+      console.log(this.records);
+    },
+
+    getWeekDay(date) {
+      const num = date.getDay();
+      switch (num) {
+        case 0:
+          return "星期日";
+        case 1:
+          return "星期一";
+        case 2:
+          return "星期二";
+        case 3:
+          return "星期三";
+        case 4:
+          return "星期四";
+        case 5:
+          return "星期五";
+        case 6:
+          return "星期六";
+        default:
+          return "";
+      }
+    },
+    loadMore() {
+      axios
+        .get("http://127.0.0.1:7001/getNews?length=10&lastId=" + this.lastId)
+        .then(res => {
+          console.log(res.data);
+          this.handleData(res.data);
+          // this.records = res.data;
+        });
     },
     checkDate(time) {
       let today = new Date();
