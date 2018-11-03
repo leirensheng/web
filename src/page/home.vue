@@ -32,9 +32,11 @@
 </template>
 
 <script>
-import axios from "axios";
+import {ajax} from '../support/ajax.js'
+import {getWeekDay,checkDate} from '../support/util'
 import message from "../components/message.vue";
 import advertise from "../components/advertise";
+const BASEURL='http://192.168.0.105:7001'
 export default {
   data() {
     return {
@@ -104,12 +106,14 @@ export default {
   },
   methods: {
     initData() {
-      axios.get("http://127.0.0.1:7001/getNews?length=10").then(res => {
-        this.handleData(res.data);
-        // this.records = res.data;
+      ajax({
+        methods:'get',
+        url:BASEURL+"/getNews?length=10"
+      }).then(resData => {
+        this.handleData(resData);
       });
     },
-
+    checkDate,
     handleData(data, isFirstInit) {
       data.forEach(one => {
         one.date = one.createDate.split("T")[0];
@@ -127,7 +131,7 @@ export default {
           var obj = {
             type: "article",
             date: one,
-            weekDay: this.getWeekDay(new Date(one)),
+            weekDay: getWeekDay(new Date(one)),
             data: data.filter(oneAritcle => oneAritcle.date === one)
           };
           this.days.push(one);
@@ -137,67 +141,17 @@ export default {
 
       if (this.days.length) {
         this.lastId = this.records.slice(-1)[0].data.slice(-1)[0].id;
-        console.log(this.lastId);
-      }
-
-      console.log(this.records);
-    },
-
-    getWeekDay(date) {
-      const num = date.getDay();
-      switch (num) {
-        case 0:
-          return "星期日";
-        case 1:
-          return "星期一";
-        case 2:
-          return "星期二";
-        case 3:
-          return "星期三";
-        case 4:
-          return "星期四";
-        case 5:
-          return "星期五";
-        case 6:
-          return "星期六";
-        default:
-          return "";
       }
     },
+
+
     loadMore() {
-      axios
-        .get("http://127.0.0.1:7001/getNews?length=10&lastId=" + this.lastId)
-        .then(res => {
-          console.log(res.data);
-          this.handleData(res.data);
-          // this.records = res.data;
+      ajax({
+        url: BASEURL+ "/getNews?length=10&lastId=" + this.lastId,
+        method:'get'
+      }).then(resData => {
+          this.handleData(resData);
         });
-    },
-    checkDate(time) {
-      let today = new Date();
-      let year = today.getFullYear();
-      let month = today.getMonth() + 1;
-      let date = today.getDate();
-      let [inputYear, inputMonth, inputDate] = time.split("-");
-      if (inputYear == year && inputMonth == month && inputDate == date) {
-        return "今天";
-      } else if (
-        inputYear == year &&
-        inputMonth == month &&
-        inputDate == date - 1
-      ) {
-        return "昨天";
-      } else if (
-        inputYear == year &&
-        inputMonth == month &&
-        inputDate == date - 2
-      ) {
-        return "前天";
-      } else {
-        return "";
-      }
-      //  if()
-      // if(date.)
     }
   },
   mounted() {
