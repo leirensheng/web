@@ -46,7 +46,7 @@ export default {
            this.hederShow = true;
         }
       } else {
-        if(this.hederShow==true){
+        if(this.hederShow==true&& scrollTop>140){
          this.hederShow = false;
         }
       }
