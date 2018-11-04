@@ -36,7 +36,7 @@ import {ajax} from '../support/ajax.js'
 import {getWeekDay,checkDate} from '../support/util'
 import message from "../components/message.vue";
 import advertise from "../components/advertise";
-const BASEURL='http://192.168.0.105:7001'
+const BASEURL='http://127.0.0.1:7001'
 export default {
   data() {
     return {
