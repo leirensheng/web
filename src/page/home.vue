@@ -36,7 +36,8 @@ import {ajax} from '../support/ajax.js'
 import {getWeekDay,checkDate} from '../support/util'
 import message from "../components/message.vue";
 import advertise from "../components/advertise";
-const BASEURL='http://13.59.242.158:7001'
+const BASEURL= process.env.NODE_ENV === "production"? 'http://13.59.242.158:7001':'http://192.168.0.104:7001'
+
 export default {
   data() {
     return {
