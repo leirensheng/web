@@ -1,6 +1,6 @@
 <template>
   <div id="headerbar">
-    <div id='icon'>
+    <div id='icon' @click="goHome()">
       <div>优设</div>
     </div>
     <div id='menuBtn' @click="openMenu()">
@@ -32,6 +32,9 @@ export default {
   
   },
   methods: {
+    goHome(){
+      this.$router.push('/home')
+    },
       openMenu(){
       this.menuShow=!this.menuShow
       console.log('in')
@@ -54,6 +57,7 @@ $orange: rgb(255, 90, 0);
   display: flex;
   justify-content: space-between;
   #icon {
+    cursor: pointer;
     height: 100%;
     font-size: 1.2rem;
     background-color: $orange;
