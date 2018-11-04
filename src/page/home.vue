@@ -23,9 +23,9 @@
     </div>
 
     <div id="loadMoreContainer">
-      <div id='loadMore' @click="loadMore">
+      <div id='loadMore' @click="loadMore" >
         <i class="el-icon-more"></i>
-        <span>加载更多精彩内容</span>
+        <span>加载更多</span>
       </div>
     </div>
   </div>
@@ -178,7 +178,7 @@ $orange: rgb(255, 90, 0);
   }
 }
 #oneDay {
-  margin-bottom: 1.7rem;
+  margin-bottom: 1.5rem;
   padding: 1.4rem;
   background: white;
   #dateRow {
@@ -199,13 +199,16 @@ $orange: rgb(255, 90, 0);
   }
 }
 #loadMoreContainer {
+  // position: relative;
+  // top:-0.3rem;
   // background-color: $orange;
   // padding: 3rem;
   display: flex;
   justify-content: center;
+  padding: 0 0.7rem;
   margin-bottom: 1rem;
   #loadMore {
-    padding: 0.8rem;
+    padding: 1.3rem;
     text-align: center;
     width: 95%;
     background-color: $orange;

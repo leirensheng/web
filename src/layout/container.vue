@@ -23,7 +23,9 @@
         footerBar
     },
     methods: {
-     
+     handleScroll(){
+         console.log('i')
+     }
     }
   }
 
