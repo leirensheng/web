@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import routes from './routes';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import routes from "./routes";
 
 
 
@@ -8,13 +8,13 @@ Vue.use(VueRouter);
 
 
 var router = new VueRouter({
-  mode: 'history',
-  routes: routes
+    mode: "hash",
+    routes: routes
 });
 
 
 router.beforeEach((to, from, next) => {
-  next()
+    next();
 });
 
 export default router;
