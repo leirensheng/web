@@ -3,7 +3,7 @@
     <div id='top'>
       <div id='webName'>优设读报</div>
       <div id='webIntro'>行业资讯一站知晓</div>
-      <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt="">
+      <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
     <div id='oneDay' v-for='(oneDay,index1) in records' :key='index1'>
       <div v-if='oneDay.type=="article"'>
