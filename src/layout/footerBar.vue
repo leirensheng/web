@@ -33,10 +33,10 @@ $orange: rgb(255, 90, 0);
   padding: 0.9rem;
   font-size:0.9rem; 
   // height: 4rem;
-  background-color: rgb(34, 31, 31);
+  background-color: rgb(255,255,255);
   // color: rgb(170,170,170);
   // width: 100%;
-      color: white;
+  color: rgb(85, 82, 82);
 
   #footerKeywordContainer {
     display: flex;
