@@ -14,7 +14,11 @@ var router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    next();
+    if(to.path==="/"){
+        next({path:"/home"});
+    }else{
+        next();
+    }
 });
 
 export default router;
