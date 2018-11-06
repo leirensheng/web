@@ -3,7 +3,7 @@
     <!-- <div id='footerKeywordContainer'>
       <div id='footerKeyword' v-for="(one,index) in keywords" :key='index'>{{one.keyword}}</div>
     </div> -->
-    <div id='copyright'>Copyright © 2018 优设</div>
+    <div id='copyright'>Copyright © 2018</div>
   </div>
 </template>
 

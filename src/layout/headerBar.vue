@@ -1,7 +1,7 @@
 <template>
   <div id="headerbar" :class="hederShow?'':'hide'">
     <div id='icon' @click="goHome()">
-      <div>优设</div>
+      <div>i简报</div>
     </div>
     <!-- <div id='menuBtn' @click="openMenu()">
       <div id='lineContainer'>
@@ -86,7 +86,8 @@ $orange: rgb(255, 90, 0);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 3rem;
+    width: 3.5rem;
+    text-align: center;
   }
   #menuBtn {
     width: 3rem;

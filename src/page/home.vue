@@ -1,8 +1,8 @@
 <template>
   <div id="home">
     <div id='top'>
-      <div id='webName'>优设读报</div>
-      <div id='webIntro'>行业资讯一站知晓</div>
+      <div id='webName'>i简报</div>
+      <div id='webIntro'>价值资讯一站知晓</div>
       <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
     <div id='oneDay' v-for='(oneDay,index1) in records' :key='index1'>
@@ -36,7 +36,7 @@ import {ajax} from '../support/ajax.js'
 import {getWeekDay,checkDate} from '../support/util'
 import message from "../components/message.vue";
 import advertise from "../components/advertise";
-const BASEURL= process.env.NODE_ENV === "production"? 'http://13.59.242.158:7001':'http://192.168.0.104:7001'
+const BASEURL= process.env.NODE_ENV === "production"? 'http://13.59.242.158:7001':'http://192.168.0.105:7001'
 
 export default {
   data() {
@@ -170,6 +170,7 @@ $orange: rgb(255, 90, 0);
   align-items: center;
   background-color: white;
   #webName {
+    font-family: 'Microsoft YaHei';
     font-size: 2rem;
     font-weight: bold;
     margin: 0.5rem;
