@@ -5,6 +5,10 @@
       <div id='webIntro'>价值资讯一站知晓</div>
       <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
+    <div id='loadingWrap'>
+    <loading v-if='!records.length'  id='loading'></loading>
+    </div>
+
     <div id='oneDay' v-for='(oneDay,index1) in records' :key='index1'>
       <div v-if='oneDay.type=="article"'>
         <div id='dateRow'>
@@ -23,11 +27,13 @@
     </div>
 
     <div id="loadMoreContainer" v-if="records.length">
-      <div id='loadMore' @click="loadMore" >
+      <div id='loadMore' @click="loadMore" v-if='!loading'>
         <i class="el-icon-more"></i>
         <span>加载更多</span>
       </div>
+      <loading2 v-if='loading' id='btnLoading'></loading2>
     </div>
+
   </div>
 </template>
 
@@ -35,12 +41,15 @@
 import {ajax} from '../support/ajax.js'
 import {getWeekDay,checkDate} from '../support/util'
 import message from "../components/message.vue";
+import loading from '../components/loading.vue'
+import loading2 from '../components/loading2.vue'
 import advertise from "../components/advertise";
 const BASEURL= process.env.NODE_ENV === "production"? 'http://13.59.242.158:7001':'http://192.168.0.105:7001'
 
 export default {
   data() {
     return {
+      loading:false,
       days: [],
       lastId: "",
       records: []
@@ -103,7 +112,9 @@ export default {
   },
   components: {
     message,
-    advertise
+    advertise,
+    loading,
+    loading2
   },
   methods: {
     initData() {
@@ -147,11 +158,15 @@ export default {
 
 
     loadMore() {
+      this.loading=true
       ajax({
         url: BASEURL+ "/getNews?length=10&lastId=" + this.lastId,
         method:'get'
       }).then(resData => {
+          this.loading=false
           this.handleData(resData);
+        }).catch(()=>{
+          this.loading= false
         });
     }
   },
@@ -163,6 +178,13 @@ export default {
 
 <style rel="stylesheet/scss" scoped lang="scss">
 $orange: rgb(255, 90, 0);
+#loadingWrap{
+  display: flex;
+  justify-content: center;
+  #loading{
+    // background-color: white
+  }
+}
 #top {
   padding: 1rem;
   display: flex;
@@ -209,6 +231,9 @@ $orange: rgb(255, 90, 0);
   justify-content: center;
   padding: 0 0.7rem;
   margin-bottom: 1rem;
+  #btnLoading{
+    //  height: 2rem;
+  }
   #loadMore {
     padding: 1.3rem;
     text-align: center;
