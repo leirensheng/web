@@ -6,7 +6,7 @@
       <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
     <div id='loadingWrap'>
-    <loading v-if='!records.length'  id='loading'></loading>
+      <loading v-if='!records.length' id='loading'></loading>
     </div>
 
     <div id='oneDay' v-for='(oneDay,index1) in records' :key='index1'>
@@ -38,18 +38,28 @@
 </template>
 
 <script>
-import {ajax} from '../support/ajax.js'
-import {getWeekDay,checkDate} from '../support/util'
+import { ajax } from "../support/ajax.js";
+import {
+  getWeekDay,
+  checkDate,
+  getWindowHeight,
+  getDocumentTop,
+  getScrollHeight
+} from "../support/util";
 import message from "../components/message.vue";
-import loading from '../components/loading.vue'
-import loading2 from '../components/loading2.vue'
+import loading from "../components/loading.vue";
+import loading2 from "../components/loading2.vue";
 import advertise from "../components/advertise";
-const BASEURL= process.env.NODE_ENV === "production"? 'http://13.59.242.158:7001':'http://192.168.0.105:7001'
+const BASEURL =
+  process.env.NODE_ENV === "production"
+    ? "http://13.59.242.158:7001"
+    : "http://192.168.0.105:7001";
 
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
+      loadingTime:0,
       days: [],
       lastId: "",
       records: []
@@ -119,8 +129,8 @@ export default {
   methods: {
     initData() {
       ajax({
-        methods:'get',
-        url:BASEURL+"/getNews?length=5"
+        methods: "get",
+        url: BASEURL + "/getNews?length=5"
       }).then(resData => {
         this.handleData(resData);
       });
@@ -132,8 +142,8 @@ export default {
       });
       let curDays = [...new Set(data.map(one => one.date))];
 
-      for(let one of curDays){
-         console.log(this.days,one)
+      for (let one of curDays) {
+        console.log(this.days, one);
         if (this.days.includes(one)) {
           let target = this.records.find(oneDay => oneDay.date === one);
           target.data.push(
@@ -156,32 +166,42 @@ export default {
       }
     },
 
-
     loadMore() {
-      this.loading=true
+      this.loading = true;
+      this.loadingTime++
       ajax({
-        url: BASEURL+ "/getNews?length=10&lastId=" + this.lastId,
-        method:'get'
-      }).then(resData => {
-          this.loading=false
+        url: BASEURL + "/getNews?length=10&lastId=" + this.lastId,
+        method: "get"
+      })
+        .then(resData => {
+          this.loading = false;
           this.handleData(resData);
-        }).catch(()=>{
-          this.loading= false
+        })
+        .catch(() => {
+          this.loading = false;
         });
     }
   },
   mounted() {
     this.initData();
+
+    window.addEventListener("scroll", () => {
+      if (getScrollHeight() == getWindowHeight() + getDocumentTop()) {
+        if(this.loadingTime<=2){
+        this.loadMore();
+        }
+      }
+    });
   }
 };
 </script>
 
 <style rel="stylesheet/scss" scoped lang="scss">
 $orange: rgb(255, 90, 0);
-#loadingWrap{
+#loadingWrap {
   display: flex;
   justify-content: center;
-  #loading{
+  #loading {
     // background-color: white
   }
 }
@@ -192,7 +212,7 @@ $orange: rgb(255, 90, 0);
   align-items: center;
   background-color: white;
   #webName {
-    font-family: 'Microsoft YaHei';
+    font-family: "Microsoft YaHei";
     font-size: 2rem;
     font-weight: bold;
     margin: 0.5rem;
@@ -232,7 +252,7 @@ $orange: rgb(255, 90, 0);
   justify-content: center;
   padding: 0 0.7rem;
   margin-bottom: 1rem;
-  #btnLoading{
+  #btnLoading {
     //  height: 2rem;
   }
   #loadMore {

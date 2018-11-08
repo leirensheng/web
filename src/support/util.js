@@ -8,14 +8,14 @@ function checkDate(time) {
         return "今天";
     } else if (
         inputYear == year &&
-      inputMonth == month &&
-      inputDate == date - 1
+        inputMonth == month &&
+        inputDate == date - 1
     ) {
         return "昨天";
     } else if (
         inputYear == year &&
-      inputMonth == month &&
-      inputDate == date - 2
+        inputMonth == month &&
+        inputDate == date - 2
     ) {
         return "前天";
     } else {
@@ -24,6 +24,7 @@ function checkDate(time) {
     //  if()
     // if(date.)
 }
+
 function getWeekDay(date) {
     const num = date.getDay();
     switch (num) {
@@ -45,4 +46,48 @@ function getWeekDay(date) {
             return "";
     }
 }
-export {checkDate,getWeekDay};
+
+
+
+function getDocumentTop() {
+    var scrollTop = 0,
+        bodyScrollTop = 0,
+        documentScrollTop = 0;
+    if (document.body) {
+        bodyScrollTop = document.body.scrollTop;
+    }
+
+    if (document.documentElement) {
+        documentScrollTop = document.documentElement.scrollTop;
+    }
+    scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+    return scrollTop;
+}
+
+//可视窗口高度
+function getWindowHeight() {
+    var windowHeight = 0;    if (document.compatMode == "CSS1Compat") {
+        windowHeight = document.documentElement.clientHeight;
+    } else {
+        windowHeight = document.body.clientHeight;
+    }
+    return windowHeight;
+}
+//滚动条滚动高度
+function getScrollHeight() {
+    var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+    if (document.body) {
+        bodyScrollHeight = document.body.scrollHeight;
+    }
+    if (document.documentElement) {
+        documentScrollHeight = document.documentElement.scrollHeight;
+    }
+    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;    return scrollHeight;
+}
+export {
+    checkDate,
+    getWeekDay,
+    getWindowHeight,
+    getScrollHeight,
+    getDocumentTop
+};
