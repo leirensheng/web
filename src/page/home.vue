@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div id="loadMoreContainer">
+    <div id="loadMoreContainer" v-if="records.length">
       <div id='loadMore' @click="loadMore" >
         <i class="el-icon-more"></i>
         <span>加载更多</span>
@@ -117,7 +117,7 @@ export default {
     checkDate,
     handleData(data, isFirstInit) {
       data.forEach(one => {
-        one.date = one.createDate.split("T")[0];
+        one.date = one.realDate.split(" ")[0];
       });
       let curDays = [...new Set(data.map(one => one.date))];
 
