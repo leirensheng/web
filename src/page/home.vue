@@ -205,6 +205,7 @@ $orange: rgb(255, 90, 0);
   margin-bottom: 1.5rem;
   padding: 1.4rem;
   background: white;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
   #dateRow {
     color: $orange;
     font-weight: bold;
