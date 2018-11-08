@@ -27,7 +27,7 @@
     </div>
 
     <div id="loadMoreContainer" v-if="records.length">
-      <div id='loadMore' @click="loadMore" v-if='!loading'>
+      <div id='loadMore' @click="loadMore" v-if='!loading&&loadingTime>=3'>
         <i class="el-icon-more"></i>
         <span>加载更多</span>
       </div>
