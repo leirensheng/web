@@ -120,7 +120,7 @@ export default {
     initData() {
       ajax({
         methods:'get',
-        url:BASEURL+"/getNews?length=10"
+        url:BASEURL+"/getNews?length=5"
       }).then(resData => {
         this.handleData(resData);
       });
