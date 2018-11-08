@@ -2,11 +2,11 @@
   <div id="home">
     <div id='top'>
       <div id='webName'>i简报</div>
-      <div id='webIntro'>价值资讯一站知晓</div>
+      <div id='webIntro'>每天3分钟互联网简报</div>
       <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
-    <div id='loadingWrap'>
-      <loading v-if='!records.length' id='loading'></loading>
+    <div id='loadingWrap' v-if='!records.length'>
+      <loading  id='loading'></loading>      
     </div>
 
     <div id='oneDay' v-for='(oneDay,index1) in records' :key='index1'>
