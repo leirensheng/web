@@ -192,7 +192,7 @@ export default {
       window.addEventListener("scroll", () => {
         window.requestAnimationFrame(() => {
           if (getScrollHeight() <= this.winHeight + getDocumentTop() + 7) {
-            if (this.loadingTime <= 2) {
+            if (this.loadingTime <= 2&&!this.loading) {
               this.loadMore();
             }
           }
