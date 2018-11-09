@@ -6,7 +6,7 @@
       <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
     <div id='loadingWrap' v-if='!records.length'>
-      <loading  id='loading'></loading>      
+      <loading id='loading'></loading>
     </div>
 
     <div id='oneDay' v-for='(oneDay,index1) in records' :key='index1'>
@@ -59,7 +59,9 @@ export default {
   data() {
     return {
       loading: false,
-      loadingTime:0,
+      loadingTime: 0,
+      documentHeight: "",
+      winHeight: getWindowHeight(),
       days: [],
       lastId: "",
       records: []
@@ -131,9 +133,14 @@ export default {
       ajax({
         methods: "get",
         url: BASEURL + "/getNews?length=5"
-      }).then(resData => {
-        this.handleData(resData);
-      });
+      })
+        .then(resData => {
+          this.handleData(resData);
+        })
+        .catch(e => {})
+        .then(() => {
+          this.bindEvent();
+        });
     },
     checkDate,
     handleData(data, isFirstInit) {
@@ -168,30 +175,33 @@ export default {
 
     loadMore() {
       this.loading = true;
-      this.loadingTime++
+      this.loadingTime++;
       ajax({
         url: BASEURL + "/getNews?length=10&lastId=" + this.lastId,
         method: "get"
       })
         .then(resData => {
-          this.loading = false;
           this.handleData(resData);
         })
-        .catch(() => {
+        .catch(() => {})
+        .then(() => {
           this.loading = false;
         });
+    },
+    bindEvent() {
+      window.addEventListener("scroll", () => {
+        window.requestAnimationFrame(() => {
+          if (getScrollHeight() <= this.winHeight + getDocumentTop() + 7) {
+            if (this.loadingTime <= 2) {
+              this.loadMore();
+            }
+          }
+        });
+      });
     }
   },
   mounted() {
     this.initData();
-
-    window.addEventListener("scroll", () => {
-      if (getScrollHeight() == getWindowHeight() + getDocumentTop()) {
-        if(this.loadingTime<=2){
-        this.loadMore();
-        }
-      }
-    });
   }
 };
 </script>
