@@ -31,6 +31,7 @@
         <i class="el-icon-more"></i>
         <span>加载更多</span>
       </div>
+      <div v-if='loadingTime<=2'>上拉刷新</div>
       <loading2 v-if='loading' id='btnLoading'></loading2>
     </div>
 
@@ -61,7 +62,7 @@ export default {
       loading: false,
       loadingTime: 0,
       documentHeight: "",
-      winHeight: getWindowHeight(),
+      winHeight: '',
       days: [],
       lastId: "",
       records: []
@@ -189,9 +190,11 @@ export default {
         });
     },
     bindEvent() {
+      // alert(this.winHeight)
       window.addEventListener("scroll", () => {
         window.requestAnimationFrame(() => {
-          if (getScrollHeight() <= this.winHeight + getDocumentTop() + 7) {
+          // alert(getScrollHeight(),getDocumentTop())
+          if (getScrollHeight() <= getWindowHeight() + getDocumentTop()+25 ) {
             if (this.loadingTime <= 2&&!this.loading) {
               this.loadMore();
             }
