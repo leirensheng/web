@@ -205,7 +205,14 @@ export default {
     }
   },
   mounted() {
+    if(process.env.NODE_ENV === "production"){
+      setTimeout(()=>{
+          this.bindEvent();
+      },500)
+    }else{
     this.initData();
+
+    }
   }
 };
 </script>
