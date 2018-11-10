@@ -5,7 +5,7 @@
       <div id='webIntro'>每天3分钟互联网简报</div>
       <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
-    <div id='loadingWrap' v-if='!records.length'>
+    <div id='loadingWrap' v-if='refresh'>
       <loading id='loading'></loading>
     </div>
 
@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       loading: false,
+      refresh:false,
       loadingTime: 0,
       documentHeight: "",
       winHeight: '',
