@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="home" v-if='records.length'>
     <div id='top'>
       <div id='webName'>i简报</div>
       <div id='webIntro'>每天3分钟互联网简报</div>
