@@ -208,7 +208,7 @@ export default {
     }
   },
   mounted() {
-        document.dispatchEvent(new Event("render-event"));
+        // document.dispatchEvent(new Event("render-event"));
         this.initData();
 
   }

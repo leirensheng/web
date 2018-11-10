@@ -17,7 +17,7 @@ module.exports = {
                         staticDir: path.join(__dirname, "/dist"),
                       
                         // 对应自己的路由文件，比如a有参数，就需要写成 /a/param1。
-                        routes: ["/", "/home"],
+                        routes: ["/home"],
                       
                         // 预渲染代理接口
                         server: {
