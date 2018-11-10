@@ -31,7 +31,7 @@
         <i class="el-icon-more"></i>
         <span>加载更多</span>
       </div>
-      <div v-if='loadingTime<=2'>上拉刷新</div>
+      <div v-if='loadingTime<=2 && !loading'>上拉刷新</div>
       <loading2 v-if='loading' id='btnLoading'></loading2>
     </div>
 
