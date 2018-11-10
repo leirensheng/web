@@ -29,7 +29,7 @@ module.exports = {
                             }
                         },
                         //在一定时间后再捕获页面信息，使得页面数据信息加载完成
-                        captureAfterTime: 20000,
+                        captureAfterTime: 30000,
                         // 这个很重要，如果没有配置这段，也不会进行预编译
                         renderer: new Renderer({
                             inject: {
