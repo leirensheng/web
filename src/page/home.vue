@@ -137,7 +137,10 @@ export default {
         url: BASEURL + "/getNews?length=5"
       })
         .then(resData => {
+          this.refresh = true
           this.handleData(resData);
+          this.refresh = false
+
         })
         .catch(e => {})
         .then(() => {
@@ -205,14 +208,7 @@ export default {
     }
   },
   mounted() {
-    if(process.env.NODE_ENV === "production"){
-      setTimeout(()=>{
-          this.bindEvent();
-      },500)
-    }else{
     this.initData();
-
-    }
   }
 };
 </script>
