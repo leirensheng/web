@@ -208,12 +208,8 @@ export default {
     }
   },
   mounted() {
-    // 如果此时已经有服务端渲染的页面，不加载
-    if(document.querySelector('.stars')&&document.querySelector('.stars').innerHTML>0){
-       console.log('jin')
-    }else{
-    this.initData();
-    }
+        this.initData();
+
   }
 };
 </script>
