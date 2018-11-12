@@ -4,7 +4,7 @@
       <div id='webName'>i简报</div>
       <div id='webIntro'>每天3分钟互联网简报</div>
     </div>
-    <div id='loadingWrap' v-if='records.length'>
+    <div id='loadingWrap' v-if='!records.length'>
       <loading id='loading'></loading>
     </div>
 
