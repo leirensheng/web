@@ -1,6 +1,6 @@
-const PrerenderSPAPlugin = require("prerender-spa-plugin");
-const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
-const path= require("path");
+// const PrerenderSPAPlugin = require("prerender-spa-plugin");
+// const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
+// const path= require("path");
 module.exports = {
     // 选项...
     // baseUrl: process.env.NODE_ENV === "production"
