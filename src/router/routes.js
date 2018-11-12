@@ -3,6 +3,7 @@
  */
 const Home = resolve => require(["../page/home.vue"], resolve);
 const Layout = resolve => require(["../layout/container.vue"], resolve);
+const Shop = resolve => require(["../page/shop.vue"], resolve);
 
 let routes = [
 
@@ -11,7 +12,8 @@ let routes = [
         component: Layout,
         name: "",
         children: [
-            {path: "/home", component: Home, name: "首页", hidden: true}
+            {path: "/home", component: Home, name: "首页", hidden: true},
+            {path: "/shop", component: Shop, name: "商品", hidden: true}
         ]
     },
     // {
