@@ -1,11 +1,10 @@
 <template>
-  <div id="home" v-if='records.length'>
+  <div id="home" >
     <div id='top'>
       <div id='webName'>i简报</div>
       <div id='webIntro'>每天3分钟互联网简报</div>
-      <!-- <img src="https://image.uisdc.com/wp-content/uploads/2018/06/top-banner-news-summer.jpg" alt=""> -->
     </div>
-    <div id='loadingWrap' v-if='refresh'>
+    <div id='loadingWrap' v-if='records.length'>
       <loading id='loading'></loading>
     </div>
 
