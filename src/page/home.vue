@@ -32,6 +32,7 @@
         <span>加载更多</span>
       </div>
       <div v-if='loadingTime<=2 && !loading'>上拉刷新</div>
+      <div v-if='loadingErr'>加载出错，请重试</div>
       <loading2 v-if='loading' id='btnLoading'></loading2>
     </div>
 
@@ -62,6 +63,7 @@ export default {
       loading: false,
       refresh:false,
       loadingTime: 0,
+      loadingErr: false,
       documentHeight: "",
       winHeight: '',
       days: [],
@@ -183,12 +185,16 @@ export default {
       this.loadingTime++;
       ajax({
         url: BASEURL + "/getNews?length=10&lastId=" + this.lastId,
-        method: "get"
+        method: "get",
+        timeout: 5000
       })
         .then(resData => {
           this.handleData(resData);
+          this.loadingErr=false
         })
-        .catch(() => {})
+        .catch(() => {
+          this.loadingErr=true
+        })
         .then(() => {
           this.loading = false;
         });
@@ -208,7 +214,7 @@ export default {
     }
   },
   mounted() {
-        // document.dispatchEvent(new Event("render-event"));
+        document.dispatchEvent(new Event("render-event"));
         this.initData();
 
   }
