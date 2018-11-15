@@ -1,8 +1,8 @@
 <template>
-  <div id="home" >
-    <div id='top'>
-      <div id='webName'>i简报</div>
-      <div id='webIntro'>每天3分钟互联网简报</div>
+  <div id="home">
+    <div class='verytop'>
+      <div class='webName'>i简报</div>
+      <div class='webIntro'>每天3分钟互联网简报</div>
     </div>
     <div id='loadingWrap' v-if='!records.length'>
       <loading id='loading'></loading>
@@ -25,14 +25,8 @@
       </div>
     </div>
 
-    <div id="loadMoreContainer" v-if="records.length">
-      <div id='loadMore' @click="loadMore" v-if='!loading&&loadingTime>=3'>
-        <i class="el-icon-more"></i>
-        <span>加载更多</span>
-      </div>
-      <div v-if='loadingTime<=2 && !loading'>上拉刷新</div>
-      <div v-if='loadingErr'>加载出错，请重试</div>
-      <loading2 v-if='loading' id='btnLoading'></loading2>
+    <div class="loadMoreContainer" v-if="records.length">
+        <bottom-loading :loading="loading" :loadingTimes="loadingTimes" :loadingErr=loadingErr @loadingMore="loadMore"></bottom-loading>
     </div>
 
   </div>
@@ -49,22 +43,19 @@ import {
 } from "../support/util";
 import message from "../components/message.vue";
 import loading from "../components/loading.vue";
-import loading2 from "../components/loading2.vue";
+import bottomLoading from "../components/bottomLoading.vue";
 import advertise from "../components/advertise";
-const BASEURL =
-  process.env.NODE_ENV === "production"
-    ? "http://13.59.242.158:7001"
-    : "http://192.168.0.105:7001";
+
 
 export default {
   data() {
     return {
       loading: false,
-      refresh:false,
-      loadingTime: 0,
+      refresh: false,
+      loadingTimes: 0,
       loadingErr: false,
       documentHeight: "",
-      winHeight: '',
+      winHeight: "",
       days: [],
       lastId: "",
       records: []
@@ -129,19 +120,18 @@ export default {
     message,
     advertise,
     loading,
-    loading2
+    bottomLoading
   },
   methods: {
     initData() {
       ajax({
         methods: "get",
-        url: BASEURL + "/getNews?length=5"
+        url: "/getNews?length=5"
       })
         .then(resData => {
-          this.refresh = true
+          this.refresh = true;
           this.handleData(resData);
-          this.refresh = false
-
+          this.refresh = false;
         })
         .catch(e => {})
         .then(() => {
@@ -181,30 +171,28 @@ export default {
 
     loadMore() {
       this.loading = true;
-      this.loadingTime++;
+      this.loadingTimes++;
       ajax({
-        url: BASEURL + "/getNews?length=10&lastId=" + this.lastId,
+        url:  "/getNews?length=10&lastId=" + this.lastId,
         method: "get",
         timeout: 5000
       })
         .then(resData => {
           this.handleData(resData);
-          this.loadingErr=false
+          this.loadingErr = false;
         })
         .catch(() => {
-          this.loadingErr=true
+          this.loadingErr = true;
         })
         .then(() => {
           this.loading = false;
         });
     },
     bindEvent() {
-      // alert(this.winHeight)
       window.addEventListener("scroll", () => {
         window.requestAnimationFrame(() => {
-          // alert(getScrollHeight(),getDocumentTop())
-          if (getScrollHeight() <= getWindowHeight() + getDocumentTop()+25 ) {
-            if (this.loadingTime <= 2&&!this.loading) {
+          if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
+            if (this.loadingTimes <= 2 && !this.loading) {
               this.loadMore();
             }
           }
@@ -213,14 +201,13 @@ export default {
     }
   },
   mounted() {
-        document.dispatchEvent(new Event("render-event"));
-        this.initData();
-
+    document.dispatchEvent(new Event("render-event"));
+    this.initData();
   }
 };
 </script>
 
-<style rel="stylesheet/scss" scoped lang="scss">
+<style rel="stylesheet/scss"  lang="scss">
 $orange: rgb(255, 90, 0);
 #loadingWrap {
   display: flex;
@@ -229,13 +216,13 @@ $orange: rgb(255, 90, 0);
     // background-color: white
   }
 }
-#top {
+.verytop {
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
-  #webName {
+  .webName {
     font-family: "Microsoft YaHei";
     font-size: 2rem;
     font-weight: bold;
@@ -267,31 +254,10 @@ $orange: rgb(255, 90, 0);
     }
   }
 }
-#loadMoreContainer {
-  // position: relative;
-  // top:-0.3rem;
-  // background-color: $orange;
-  // padding: 3rem;
+.loadMoreContainer {
   display: flex;
   justify-content: center;
   padding: 0 0.7rem;
   margin-bottom: 1rem;
-  #btnLoading {
-    //  height: 2rem;
-  }
-  #loadMore {
-    padding: 1.3rem;
-    text-align: center;
-    width: 95%;
-    background-color: $orange;
-    padding: 0.8rem;
-    color: white;
-    border-radius: 0.2rem;
-    font-size: 1.1rem;
-    i {
-      margin-right: 0.5rem;
-    }
-    //
-  }
 }
 </style>

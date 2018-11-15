@@ -3,6 +3,11 @@
     <div id='icon' @click="goHome()">
       <div>i简报</div>
     </div>
+
+    <div id='menu0'>
+      <div @click='$router.push("/home")'>资讯</div>
+      <div @click='$router.push("/shop")'>购物</div>
+    </div>
     <!-- <div id='menuBtn' @click="openMenu()">
       <div id='lineContainer'>
         <div class="line"></div>
@@ -75,7 +80,7 @@ $orange: rgb(255, 90, 0);
   top: 0;
   height: 2.5rem;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   transition: top 0.5s;
   #icon {
     cursor: pointer;
@@ -88,6 +93,15 @@ $orange: rgb(255, 90, 0);
     justify-content: center;
     width: 3.5rem;
     text-align: center;
+  }
+  #menu0{
+    margin-left: 1rem;
+    display: flex;
+    div{
+      cursor: pointer;
+      color: $orange;
+      padding: 0.5rem;
+    }
   }
   #menuBtn {
     width: 3rem;

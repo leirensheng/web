@@ -1,24 +1,26 @@
 <template>
   <div id='shopItem'>
     <div id='itemLeft'>
-      <img src="https://y.zdmimg.com/201703/23/58d38079c45d95980.jpg_a200.jpg" alt="">
+      <img :src="goods.pic" alt="">
     </div>
     <div id='itemRight'>
-      <div id="shopTitle">
-         绝对值：WORKPRO 万克宝 W00010005 家用冲击电钻工具 170件套装
+      <div id="shopTitle" @click=gotoMall(goods.url)>
+         {{goods.title}}
       </div>
       <div id="shopPrice">
-           66元包邮（需用码，合188元/件）
+         {{goods.priceDesc}}
       </div>
       <div id="shopInfo">
           <div id='shopSource'>
-            网易考拉| 22:31
+            {{goods.mall}}| {{goods.date}}
           </div>
-          <div id='shopComment'>
-            3
-          </div>
+          <!-- <div id='shopComment'>
+            {{goods.comment}}
+          </div> -->
           <div id='star'>
-            88
+             <i class="icon iconfont icon-weibiaoti-  zan">
+                </i>
+            {{goods.comment}}
           </div>
       </div>
     </div>
@@ -29,18 +31,30 @@ export default {
   data() {
     return {};
   },
-  props: {},
+  props: {
+    goods:{
+      default:{}
+    }
+  },
   components: {},
-  methods: {}
+  methods: {
+    gotoMall(url){
+      window.location.href=url
+    }
+  }
 };
 </script>
 
 <style rel="stylesheet/scss" scoped lang="scss">
 $orange: rgb(255, 90, 0);
 #shopItem {
+  border-radius: 0.2rem;
+  background-color: white;
+  margin: 0.8rem;
+  border: 1px solid rgb(228, 227, 224);
   padding: 1rem;
   display: flex;
-  border: 1px solid red;
+  // border: 1px solid red;
   align-items: center;
   #itemLeft {
     height: 7.4rem;
@@ -54,10 +68,11 @@ $orange: rgb(255, 90, 0);
     padding: 0.7rem;
     flex: 1;
     #shopTitle{
+      cursor: pointer;
       text-overflow:ellipsis;
       font-weight: 700;
          overflow: hidden;
-         height: 3.43rem;
+         max-height: 3.43rem;
          line-height: 1.714rem;
     }
     #shopPrice{
@@ -71,12 +86,16 @@ $orange: rgb(255, 90, 0);
       margin-top: 0.8rem;
       #shopSource{
          width: 9rem;
+         flex: 1
       }
-      #shopComment{
-         width: 4rem;
+      // #shopComment{
+      //    width: 4rem;
 
+      // }
+      #star{
+        width: 2rem;
+        align-self: flex-end;
       }
-      #star{}
    }
   }
 }

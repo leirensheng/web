@@ -1,6 +1,10 @@
 /**
  * ajax 模块，不兼容低版本IE
  */
+const BASEURL =
+  process.env.NODE_ENV === "production"
+      ? "http://13.59.242.158:7001"
+      : "http://192.168.0.105:7001";
 
 /**
  * ajax get方法
@@ -78,7 +82,7 @@ function ajax(opts){
             }
         };
         
-        req.open(opts.method, opts.url, true);
+        req.open(opts.method, opts.url.indexOf("http")!=-1? opts.url:(BASEURL+ opts.url), true);
         
         if(opts.headers){
             for(var key in opts.headers){
