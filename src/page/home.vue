@@ -146,7 +146,6 @@ export default {
       let curDays = [...new Set(data.map(one => one.date))];
 
       for (let one of curDays) {
-        console.log(this.days, one);
         if (this.days.includes(one)) {
           let target = this.records.find(oneDay => oneDay.date === one);
           target.data.push(
