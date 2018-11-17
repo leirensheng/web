@@ -3,7 +3,7 @@
  */
 const BASEURL =
   process.env.NODE_ENV === "production"
-      ? "http://13.59.242.158:7001"
+      ? "http://120.78.173.191:7001"
       : "http://192.168.0.105:7001";
 
 /**
