@@ -26,7 +26,7 @@
     </div>
 
     <div class="loadMoreContainer" v-if="records.length">
-        <bottom-loading :loading="loading" :loadingTimes="loadingTimes" :loadingErr=loadingErr @loadingMore="loadMore"></bottom-loading>
+      <bottom-loading :noMore="noMore" :loading="loading" :loadingTimes="loadingTimes" :loadingErr=loadingErr @loadingMore="loadMore"></bottom-loading>
     </div>
 
   </div>
@@ -46,10 +46,10 @@ import loading from "../components/loading.vue";
 import bottomLoading from "../components/bottomLoading.vue";
 import advertise from "../components/advertise";
 
-
 export default {
   data() {
     return {
+      noMore:false,
       loading: false,
       refresh: false,
       loadingTimes: 0,
@@ -172,12 +172,17 @@ export default {
       this.loading = true;
       this.loadingTimes++;
       ajax({
-        url:  "/getNews?length=10&lastId=" + this.lastId,
+        url: "/getNews?length=10&lastId=" + this.lastId,
         method: "get",
         timeout: 5000
       })
         .then(resData => {
+          if(resData.length){
           this.handleData(resData);
+          }
+          else{
+            this.noMore =true
+          }
           this.loadingErr = false;
         })
         .catch(() => {
@@ -254,9 +259,9 @@ $orange: rgb(255, 90, 0);
   }
 }
 .loadMoreContainer {
-  display: flex;
-  justify-content: center;
-  padding: 0 0.7rem;
+  // display: flex;
+  // justify-content: center;
+  // padding: 0 0.7rem;
   margin-bottom: 1rem;
 }
 </style>

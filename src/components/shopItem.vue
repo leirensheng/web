@@ -17,7 +17,7 @@
           <!-- <div id='shopComment'>
             {{goods.comment}}
           </div> -->
-          <div id='star'>
+          <div id='star' @click="addStar" :class="hasAdd? 'hasAdd':''">
              <i class="icon iconfont icon-weibiaoti-  zan">
                 </i>
             {{goods.comment}}
@@ -29,7 +29,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      hasAdd:false
+    };
   },
   props: {
     goods:{
@@ -38,6 +40,12 @@ export default {
   },
   components: {},
   methods: {
+        addStar() {
+      if (!this.hasAdd) {
+        this.hasAdd = true;
+        this.goods.comment++;
+      }
+    },
     gotoMall(url){
       window.location.href=url
     }
@@ -47,6 +55,10 @@ export default {
 
 <style rel="stylesheet/scss" scoped lang="scss">
 $orange: rgb(255, 90, 0);
+
+.hasAdd{
+  color:$orange !important;
+}
 #shopItem {
   border-radius: 0.2rem;
   background-color: white;
@@ -93,7 +105,7 @@ $orange: rgb(255, 90, 0);
 
       // }
       #star{
-        width: 2rem;
+        width: 3rem;
         align-self: flex-end;
       }
    }

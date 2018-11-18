@@ -56,15 +56,13 @@ export default {
         timeout: 5000
       })
         .then(resData => {
-          if(resData.length){
-      this.records.push(...resData.data);
-          this.lastId= this.records.slice(-1)[0].id
-          this.loadingErr = false;
-
-          }else{
-            this.noMore =true
+          if (resData.length) {
+            this.records.push(...resData.data);
+            this.lastId = this.records.slice(-1)[0].id;
+            this.loadingErr = false;
+          } else {
+            this.noMore = true;
           }
-    
         })
         .catch(() => {
           this.loadingErr = true;
@@ -91,7 +89,7 @@ export default {
       loadingTimes: 0,
       loading: false,
       loadingErr: false,
-      noMore:false,
+      noMore: false,
       lastId: ""
     };
   },

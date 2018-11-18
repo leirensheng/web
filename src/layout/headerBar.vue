@@ -5,8 +5,8 @@
     </div>
 
     <div id='menu0'>
-      <div @click='$router.push("/home")'>资讯</div>
-      <div @click='$router.push("/shop")'>购物</div>
+      <div @click='$router.push("/home")' class="menu0item">资讯</div>
+      <div @click='$router.push("/shop")' class="menu0item">购物</div>
     </div>
     <!-- <div id='menuBtn' @click="openMenu()">
       <div id='lineContainer'>
@@ -47,20 +47,20 @@ export default {
       let scrollTop =
         document.documentElement.scrollTop || document.body.scrollTop;
       if (scrollTop < this.currentNum) {
-        if(this.hederShow===false){
-           this.hederShow = true;
+        if (this.hederShow === false) {
+          this.hederShow = true;
         }
       } else {
-        if(this.hederShow==true&& scrollTop>140){
-         this.hederShow = false;
+        if (this.hederShow == true && scrollTop > 140) {
+          this.hederShow = false;
         }
       }
       this.currentNum = scrollTop;
     }
   },
   mounted() {
-    window.addEventListener("scroll", ()=>{
-        window.requestAnimationFrame(this.handleScroll);
+    window.addEventListener("scroll", () => {
+      window.requestAnimationFrame(this.handleScroll);
     });
   }
 };
@@ -72,6 +72,7 @@ $orange: rgb(255, 90, 0);
   top: -2.6rem !important;
 }
 #headerbar {
+  z-index: 9999;
   background-color: #fff;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
   position: fixed;
@@ -94,13 +95,41 @@ $orange: rgb(255, 90, 0);
     width: 3.5rem;
     text-align: center;
   }
-  #menu0{
+  #menu0 {
+    @media (min-width: 760px) {
+      div::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 0;
+        height: 100%;
+        border-bottom: 2px solid $orange;
+        transition: 0.2s all linear;
+      }
+
+      div:hover::before {
+        width: 100%;
+        top: 0;
+        left: 0;
+        transition-delay: 0.1s;
+        border-bottom-color: $orange;
+        z-index: -1;
+      }
+      div:hover ~ div::before {
+        left: 0;
+      }
+    }
+
     margin-left: 1rem;
     display: flex;
-    div{
+    div {
+      // flex:0;
+      position: relative;
       cursor: pointer;
       color: $orange;
       padding: 0.5rem;
+      transition: 0.2s all linear;
     }
   }
   #menuBtn {
