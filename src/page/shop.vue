@@ -5,6 +5,10 @@
       <div class='webIntro'>优惠好物</div>
     </div>
     <div>
+      <input type="text" v-model="searchKeyword">
+      <button @click="search">搜索</button>
+    </div>
+    <div>
       <shop-item v-for="(one,index) in records" :key="index" :goods="one"></shop-item>
     </div>
 
@@ -47,6 +51,21 @@ export default {
           this.bindEvent();
         });
     },
+    search(){
+      ajax({
+        url: `/tbSearch?page=${this.searchPage}&q=${this.searchKeyword}`,
+        method: "get",
+        timeout: 5000
+      }).then(res=>{
+        this.records = res
+        // console.log(res)
+      })
+    },
+    handleTbData(data){
+      this.records= data.map(one=>{
+
+      })
+    },
     loadMore() {
       this.loading = true;
       this.loadingTimes++;
@@ -85,6 +104,8 @@ export default {
   },
   data() {
     return {
+      searchKeyword:'',
+      searchPage:1,
       records: [],
       loadingTimes: 0,
       loading: false,
