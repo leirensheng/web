@@ -1,12 +1,20 @@
 <template>
-  <div id='shop'>
+  <div id='taobao'>
     <div class='verytop'>
-      <div class='webName'>购物频道</div>
+      <div class='webName'>超级搜索</div>
       <div class='webIntro'>优惠好物</div>
+    </div>
+    <div id='searchCon'>
+      <div id='searchWrap'>
+        <input type="text" v-model="searchKeyword">
+        <div @click="search">
+          <span>搜索</span>
+        </div>
+      </div>
     </div>
 
     <div>
-      <shop-item v-for="(one,index) in records" :key="index" :goods="one"></shop-item>
+      <taobao-item v-for="(one,index) in records" :key="index" :goods="one"></taobao-item>
     </div>
 
     <div class="loadMoreContainer" v-if="records.length">
@@ -27,26 +35,25 @@ import {
   getDocumentTop,
   getScrollHeight
 } from "../support/util";
-import shopItem from "../components/shopItem";
+import taobaoItem from "../components/taobaoItem";
 export default {
   components: {
-    shopItem,
+    taobaoItem,
     bottomLoading
   },
   methods: {
-    initData() {
+    search() {
       ajax({
-        methods: "get",
-        url: "/getGoods?length=5"
-      })
-        .then(res => {
-          this.records = res.data;
-          this.lastId = this.records.slice(-1)[0].id;
-        })
-        .catch(e => {})
-        .then(() => {
-          this.bindEvent();
-        });
+        url: `/tbSearch?page=${this.searchPage}&q=${this.searchKeyword}`,
+        method: "get",
+        timeout: 5000
+      }).then(res => {
+        this.records = res;
+        // console.log(res)
+      });
+    },
+    handleTbData(data) {
+      this.records = data.map(one => {});
     },
     loadMore() {
       this.loading = true;
@@ -86,8 +93,8 @@ export default {
   },
   data() {
     return {
-      searchKeyword:'',
-      searchPage:1,
+      searchKeyword: "",
+      searchPage: 1,
       records: [],
       loadingTimes: 0,
       loading: false,
@@ -96,16 +103,41 @@ export default {
       lastId: ""
     };
   },
-  mounted() {
-    this.initData();
-  }
+  mounted() {}
 };
 </script>
 
 <style rel="stylesheet/scss" scoped lang="scss">
-#shop {
-  padding: 2rem;
-  background-color: rgb(199, 189, 184);
+$orange: rgb(255, 90, 0);
+
+#searchCon {
+  display: flex;
+  justify-content: center;
+  #searchWrap {
+    // width: 80%;
+    width: 12rem;
+    display: flex;
+    align-content: center;
+    input {
+      width: 90%;
+      height: 2.1rem;
+      border-radius:  0.3rem 0  0 0.3rem ;
+    }
+    div{
+      // height: 99%;
+  height: 2.2rem;
+
+      width: 3.1rem;
+      padding: 0.2rem;
+      cursor: pointer;
+      background-color: $orange;
+      border-radius: 0 0.3rem 0.3rem 0 ;
+      color:white;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+  }
 }
 </style>
 

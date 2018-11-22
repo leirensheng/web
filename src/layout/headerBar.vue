@@ -7,6 +7,8 @@
     <div id='menu0'>
       <div @click='$router.push("/home")' class="menu0item">资讯</div>
       <div @click='$router.push("/shop")' class="menu0item">购物</div>
+      <div @click='$router.push("/taobao")' class="menu0item">搜索</div>
+
     </div>
     <!-- <div id='menuBtn' @click="openMenu()">
       <div id='lineContainer'>
