@@ -13,23 +13,23 @@
       </div>
     </div>
 
-    <div id='loadingWrap' v-if='loading'>
+    <div id='loadingWrap' v-if='searching'>
       <loading id='loading'></loading>
     </div>
     <div v-else>
       <taobao-item v-for="(one,index) in records" :key="index" :goods="one"></taobao-item>
     </div>
 
-    <!-- <div class="loadMoreContainer" v-if="records.length">
+    <div class="loadMoreContainer" v-if="records.length">
       <bottom-loading :loading="loading" :noMore="noMore" :loadingTimes="loadingTimes" :loadingErr=loadingErr @loadingMore="loadMore"></bottom-loading>
-    </div> -->
+    </div>
 
   </div>
 </template>
 
 <script>
 import loading from "../components/loading.vue";
-// import bottomLoading from "../components/bottomLoading.vue";
+import bottomLoading from "../components/bottomLoading.vue";
 import { ajax } from "../support/ajax.js";
 import {
   getWeekDay,
@@ -43,57 +43,48 @@ export default {
   components: {
     taobaoItem,
     loading,
-    // bottomLoading
+    bottomLoading
   },
   methods: {
     search() {
-      this.loading =true
+      this.searching = true;
+      this.noMore = false;
       ajax({
         url: `/tbSearch?page=${this.searchPage}&q=${this.searchKeyword}`,
         method: "get",
         timeout: 5000
-      }).then(res => {
-        this.records = res.data;
-      this.loading =false
-
-        // console.log(res)
-      }).catch(e=>{
-      this.loading =false
-
-      });
+      })
+        .then(res => {
+          this.allData = res.data;
+          this.records = res.data.slice(0, this.onePageNum);
+          this.bindEvent();
+          this.searching = false;
+        })
+        .catch(e => {
+          console.log(e);
+          this.searching = false;
+        });
     },
-    handleTbData(data) {
-      this.records = data.map(one => {});
-    },
+
     loadMore() {
       this.loading = true;
-      this.loadingTimes++;
-      ajax({
-        url: "/getGoods?length=10&lastId=" + this.lastId,
-        method: "get",
-        timeout: 5000
-      })
-        .then(resData => {
-          if (resData.length) {
-            this.records.push(...resData.data);
-            this.lastId = this.records.slice(-1)[0].id;
-            this.loadingErr = false;
-          } else {
-            this.noMore = true;
-          }
-        })
-        .catch(() => {
-          this.loadingErr = true;
-        })
-        .then(() => {
-          this.loading = false;
-        });
+      this.records = this.allData.slice(
+        0,
+        this.records.length + this.onePageNum
+      );
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+      if (this.records.length === this.allData.length) {
+        this.noMore = true;
+      }
     },
     bindEvent() {
       window.addEventListener("scroll", () => {
+        console.log("scro;");
         window.requestAnimationFrame(() => {
           if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
-            if (this.loadingTimes <= 2 && !this.loading) {
+            if (!this.loading && !this.noMore) {
               this.loadMore();
             }
           }
@@ -103,9 +94,12 @@ export default {
   },
   data() {
     return {
+      onePageNum: 7,
       searchKeyword: "",
+      searching: false,
       searchPage: 1,
       records: [],
+      allData: [],
       loadingTimes: 0,
       loading: false,
       loadingErr: false,
@@ -119,7 +113,7 @@ export default {
 
 <style rel="stylesheet/scss" scoped lang="scss">
 $orange: rgb(255, 90, 0);
-#loadingWrap{
+#loadingWrap {
   display: flex;
   justify-content: center;
 }
@@ -134,21 +128,21 @@ $orange: rgb(255, 90, 0);
     input {
       width: 90%;
       height: 2.1rem;
-      border-radius:  0.3rem 0  0 0.3rem ;
+      border-radius: 0.3rem 0 0 0.3rem;
     }
-    div{
+    div {
       // height: 99%;
-  height: 2.2rem;
+      height: 2.2rem;
 
       width: 3.1rem;
       padding: 0.2rem;
       cursor: pointer;
       background-color: $orange;
-      border-radius: 0 0.3rem 0.3rem 0 ;
-      color:white;
+      border-radius: 0 0.3rem 0.3rem 0;
+      color: white;
       display: flex;
       align-items: center;
-      justify-content: center
+      justify-content: center;
     }
   }
 }

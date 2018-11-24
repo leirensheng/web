@@ -8,7 +8,7 @@
     <div id='btnLoadingCon'>
       <span v-if="noMore">没有更多了</span>
 
-      <div v-if='loadingTimes<=2 && !loading'>上拉刷新</div>
+      <div v-if='loadingTimes<=2 && !loading&&!noMore'>上拉刷新</div>
       <div v-if='loadingErr'>加载出错，请重试</div>
       <loading2 v-if='loading' id='btnLoading'></loading2>
 
