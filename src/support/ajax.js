@@ -3,7 +3,7 @@
  */
 const BASEURL =
   process.env.NODE_ENV === "production"
-      ? "http://120.78.173.191:7001"
+      ? "http://m.ixcut.com:7001"
       : "http://192.168.0.111:7001";
 
 /**
