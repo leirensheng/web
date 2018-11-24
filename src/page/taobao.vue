@@ -13,20 +13,23 @@
       </div>
     </div>
 
-    <div>
+    <div id='loadingWrap' v-if='loading'>
+      <loading id='loading'></loading>
+    </div>
+    <div v-else>
       <taobao-item v-for="(one,index) in records" :key="index" :goods="one"></taobao-item>
     </div>
 
-    <div class="loadMoreContainer" v-if="records.length">
+    <!-- <div class="loadMoreContainer" v-if="records.length">
       <bottom-loading :loading="loading" :noMore="noMore" :loadingTimes="loadingTimes" :loadingErr=loadingErr @loadingMore="loadMore"></bottom-loading>
-    </div>
+    </div> -->
 
   </div>
 </template>
 
 <script>
-import loading2 from "../components/loading2.vue";
-import bottomLoading from "../components/bottomLoading.vue";
+import loading from "../components/loading.vue";
+// import bottomLoading from "../components/bottomLoading.vue";
 import { ajax } from "../support/ajax.js";
 import {
   getWeekDay,
@@ -39,17 +42,24 @@ import taobaoItem from "../components/taobaoItem";
 export default {
   components: {
     taobaoItem,
-    bottomLoading
+    loading,
+    // bottomLoading
   },
   methods: {
     search() {
+      this.loading =true
       ajax({
         url: `/tbSearch?page=${this.searchPage}&q=${this.searchKeyword}`,
         method: "get",
         timeout: 5000
       }).then(res => {
         this.records = res.data;
+      this.loading =false
+
         // console.log(res)
+      }).catch(e=>{
+      this.loading =false
+
       });
     },
     handleTbData(data) {
@@ -109,7 +119,10 @@ export default {
 
 <style rel="stylesheet/scss" scoped lang="scss">
 $orange: rgb(255, 90, 0);
-
+#loadingWrap{
+  display: flex;
+  justify-content: center;
+}
 #searchCon {
   display: flex;
   justify-content: center;
