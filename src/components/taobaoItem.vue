@@ -22,7 +22,7 @@
       </div>
       <div id="shopInfo">
         <div id='shopSource'>
-          {{goods.mall}} 月销 {{goods.volumn}}
+          {{goods.mall}} 月销 {{goods.volume}}
         </div>
         <div>
           <div @click="copy(goods.taobaoUrl)">复制淘口令</div>

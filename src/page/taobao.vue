@@ -48,7 +48,7 @@ export default {
         method: "get",
         timeout: 5000
       }).then(res => {
-        this.records = res;
+        this.records = res.data;
         // console.log(res)
       });
     },
