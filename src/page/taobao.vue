@@ -81,7 +81,6 @@ export default {
     },
     bindEvent() {
       window.addEventListener("scroll", () => {
-        console.log("scro;");
         window.requestAnimationFrame(() => {
           if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
             if (!this.loading && !this.noMore) {
