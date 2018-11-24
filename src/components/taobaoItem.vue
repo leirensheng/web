@@ -24,6 +24,9 @@
         <div id='shopSource'>
           {{goods.mall}} 月销 {{goods.volumn}}
         </div>
+        <div>
+          <div @click="copy(goods.taobaoUrl)">复制淘口令</div>
+        </div>
         <!-- <div id='shopComment'>
             {{goods.comment}}
           </div> -->
@@ -33,6 +36,8 @@
   </div>
 </template>
 <script>
+import {copyContent} from '../support/util'
+import { ajax } from '../support/ajax';
 export default {
   data() {
     return {
@@ -48,6 +53,25 @@ export default {
   methods: {
     gotoMall(url) {
       window.open(url);
+    },
+    copy(url){
+        // copyContent('test')
+
+      // console.log(url)
+      ajax({
+        url:'/getTaokouling',
+        method:'post',
+        headers:{
+          'content-type':'application/json',
+        },
+        data: JSON.stringify({
+          url:'https:'+url,
+        })
+      }).then(res=>{
+        console.log(res.data.model)
+        copyContent(res.data.model)
+      })
+      //  copyContent()
     }
   }
 };

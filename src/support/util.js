@@ -25,6 +25,20 @@ function checkDate(time) {
     // if(date.)
 }
 
+function copyContent(fp,ua= window.navigator.userAgent) {
+    var input = document.createElement("input");
+    input.setAttribute("readonly", "readonly");
+    input.setAttribute("value", "UCFP:" + fp);
+    input.setAttribute("width", 0);
+    input.setAttribute("height", 0);
+    document.body.appendChild(input);
+    if (ua.toLowerCase().indexOf("android") !==-1) {
+        input.select();
+    }
+    input.setSelectionRange(0, input.value.length);
+    document.execCommand("copy");
+    document.body.removeChild(input);
+}
 function getWeekDay(date) {
     const num = date.getDay();
     switch (num) {
@@ -89,5 +103,6 @@ export {
     getWeekDay,
     getWindowHeight,
     getScrollHeight,
+    copyContent,
     getDocumentTop
 };
