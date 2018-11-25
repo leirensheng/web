@@ -24,20 +24,16 @@
         <div id='shopSource'>
           {{goods.mall}} 月销 {{goods.volume}}
         </div>
-        <div>
-          <div @click="copy(goods.taobaoUrl)">复制淘口令</div>
+        <div id='tkl'>
+          <div @click="copy(goods.taobaoUrl,goods.pic, goods.title)">复制淘口令</div>
         </div>
-        <!-- <div id='shopComment'>
-            {{goods.comment}}
-          </div> -->
+
 
       </div>
     </div>
   </div>
 </template>
 <script>
-import {copyContent} from '../support/util'
-import { ajax } from '../support/ajax';
 export default {
   data() {
     return {
@@ -54,24 +50,8 @@ export default {
     gotoMall(url) {
       window.open(url);
     },
-    copy(url){
-        // copyContent('test')
-
-      // console.log(url)
-      ajax({
-        url:'/getTaokouling',
-        method:'post',
-        headers:{
-          'content-type':'application/json',
-        },
-        data: JSON.stringify({
-          url:'https:'+url,
-        })
-      }).then(res=>{
-        console.log(res.data.model)
-        copyContent(res.data.model)
-      })
-      //  copyContent()
+    copy(url,pic,title){
+      this.$emit('generate',url,pic,title)
     }
   }
 };
@@ -155,6 +135,9 @@ $orange: rgb(255, 90, 0);
       #shopSource {
         width: 2rem;
         flex: 1;
+      }
+      #tkl{
+        cursor: pointer;
       }
       // #shopComment{
       //    width: 4rem;

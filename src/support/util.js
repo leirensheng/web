@@ -28,7 +28,7 @@ function checkDate(time) {
 function copyContent(fp,ua= window.navigator.userAgent) {
     var input = document.createElement("input");
     input.setAttribute("readonly", "readonly");
-    input.setAttribute("value", "UCFP:" + fp);
+    input.setAttribute("value",  fp);
     input.setAttribute("width", 0);
     input.setAttribute("height", 0);
     document.body.appendChild(input);
