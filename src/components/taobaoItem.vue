@@ -25,7 +25,7 @@
           {{goods.mall}} 月销 {{goods.volume}}
         </div>
         <div id='tkl'>
-          <div @click="copy(goods.taobaoUrl,goods.pic, goods.title)">复制淘口令</div>
+          <div @click="copy(goods.url,goods.pic, goods.title)">淘口令</div>
         </div>
 
 
