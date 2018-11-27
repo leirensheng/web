@@ -5,6 +5,8 @@ const Home = resolve => require(["../page/home.vue"], resolve);
 const Layout = resolve => require(["../layout/container.vue"], resolve);
 const Shop = resolve => require(["../page/shop.vue"], resolve);
 const Taobao = resolve => require(["../page/taobao.vue"], resolve);
+const Detail = resolve => require(["../page/taobaoDetail.vue"], resolve);
+
 
 let routes = [
 
@@ -15,7 +17,8 @@ let routes = [
         children: [
             {path: "/home", component: Home, name: "首页", hidden: true},
             {path: "/shop", component: Shop, name: "商品", hidden: true},
-            {path: "/taobao", component: Taobao, name: "淘宝", hidden: true}
+            {path: "/taobao", component: Taobao, name: "淘宝", hidden: true},
+            {path: "/detail", component: Detail, name: "详情", hidden: true}
         ]
     },
     // {

@@ -1,6 +1,8 @@
 <template>
   <div id="app" data-server-rendered="true">
-    <router-view></router-view>
+    <keep-alive>
+    <router-view ></router-view>
+    </keep-alive>
   </div>
 </template>
 

@@ -1,30 +1,58 @@
 <template>
-  <div id='taobao'>
+ <div id='taobao'>
     <div class='verytop'>
       <div class='webName'>超级搜索</div>
       <div class='webIntro'>优惠好物</div>
     </div>
     <div id='searchCon'>
       <div id='searchWrap'>
-        <input type="text" v-model="searchKeyword">
+        <input
+          type="text"
+          v-model="searchKeyword"
+        >
         <div @click="search">
           <span>搜索</span>
         </div>
       </div>
     </div>
 
-    <div id='loadingWrap' v-if='searching'>
+    <div
+      id='loadingWrap'
+      v-if='searching'
+    >
       <loading id='loading'></loading>
     </div>
     <div v-else>
-      <taobao-item @generate="handleGenerate" v-for="(one,index) in records" :key="index" :goods="one"></taobao-item>
+      <taobao-item
+        @generate="handleGenerate"
+        v-for="(one,index) in records"
+        :key="index"
+        :goods="one"
+      ></taobao-item>
     </div>
 
-    <div class="loadMoreContainer" v-if="records.length">
-      <bottom-loading :loading="loading" :noMore="noMore" :loadingTimes="loadingTimes" :loadingErr=loadingErr @loadingMore="loadMore"></bottom-loading>
+    <div
+      class="loadMoreContainer"
+      v-if="records.length"
+    >
+      <bottom-loading
+        :loading="loading"
+        :noMore="noMore"
+        :loadingTimes="loadingTimes"
+        :loadingErr=loadingErr
+        @loadingMore="loadMore"
+      ></bottom-loading>
     </div>
-    <vdialog :loading="taokouling.loading" :visible="taokouling.visible" :btns="taokouling.btns" :title="'淘口令'" :content="taokouling.content" @close=closeDialog @copy=handleCopy ></vdialog>
-  </div>
+    <vdialog
+      :loading="taokouling.loading"
+      :visible="taokouling.visible"
+      :btns="taokouling.btns"
+      :title="'淘口令'"
+      :content="taokouling.content"
+      @close=closeDialog
+      @copy=handleCopy
+    ></vdialog>
+  </div> 
 </template>
 
 <script>
@@ -69,16 +97,15 @@ export default {
         });
     },
     handleCopy(str) {
-      console.log(str)
+      console.log(str);
       copyContent(str);
-      this.taokouling.content='已复制，请打开淘宝'
-      setTimeout(()=>{
-      this.taokouling.visible=false
-
-      },2000)
+      this.taokouling.content = "已复制，请打开淘宝";
+      setTimeout(() => {
+        this.taokouling.visible = false;
+      }, 2000);
     },
-    closeDialog(){
-      this.taokouling.visible=false
+    closeDialog() {
+      this.taokouling.visible = false;
     },
     handleGenerate(url, logoUrl, text) {
       this.taokouling.visible = true;
@@ -102,7 +129,7 @@ export default {
         })
         .catch(e => {
           // console.log(e)
-          this.taokouling.content='网络故障，请重试'
+          this.taokouling.content = "网络故障，请重试";
           this.taokouling.loading = false;
         });
       //  copyContent()
