@@ -44,6 +44,7 @@
       ></bottom-loading>
     </div>
     <taokouling
+      @reset="handleReset"
       :url="taokouling.url"
       :logoUrl="taokouling.logoUrl"
       :text="taokouling.text"
@@ -61,7 +62,6 @@ import {
   getWindowHeight,
   getDocumentTop,
   getScrollHeight,
-  copyContent
 } from "../support/util";
 import taobaoItem from "../components/taobaoItem";
 export default {
@@ -72,6 +72,9 @@ export default {
     taokouling
   },
   methods: {
+    handleReset(){
+      this.taokouling.url=this.taokouling.logoUrl=this.taokouling.text=''
+    },
     search() {
       this.searching = true;
       this.noMore = false;

@@ -170,7 +170,7 @@ export default {
     loadMore() {
       this.loading = true;
       this.loadingTimes++;
-      $ajax({
+      this.$ajax({
         url: "/getNews?length=10&lastId=" + this.lastId,
         method: "get",
         timeout: 5000

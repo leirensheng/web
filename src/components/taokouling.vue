@@ -11,7 +11,7 @@
 </template>
 <script>
 import vdialog from "../components/vdialog.vue";
-
+import {copyContent} from '../support/util'
 export default {
   components: {
     vdialog
@@ -49,11 +49,13 @@ export default {
     handleCopy(str) {
       copyContent(str);
       this.content = "已复制，请打开淘宝";
+      this.$emit('reset')
       setTimeout(() => {
         this.visible = false;
       }, 2000);
     },
     closeDialog() {
+      this.$emit('reset')
       this.visible = false;
     },
     handleGenerate(url, logoUrl, text) {

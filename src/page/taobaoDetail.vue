@@ -50,6 +50,7 @@
       >领券购买</div>
     </div>
     <taokouling
+      @reset='handleReset'
       :url="taokouling.url"
       :logoUrl='taokouling.logoUrl'
       :text="taokouling.text"
@@ -76,6 +77,9 @@ export default {
     };
   },
   methods: {
+      handleReset(){
+      this.taokouling.url=this.taokouling.logoUrl=this.taokouling.text=''
+    },
     shop() {
       let source = getUaSource(window.navigator.userAgent);
       if (source === "weixin") {
