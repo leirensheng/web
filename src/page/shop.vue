@@ -19,7 +19,6 @@
 <script>
 import loading2 from "../components/loading2.vue";
 import bottomLoading from "../components/bottomLoading.vue";
-import { ajax } from "../support/ajax.js";
 import {
   getWeekDay,
   checkDate,
@@ -35,7 +34,7 @@ export default {
   },
   methods: {
     initData() {
-      ajax({
+      this.$ajax({
         methods: "get",
         url: "/getGoods?length=5"
       })
@@ -51,7 +50,7 @@ export default {
     loadMore() {
       this.loading = true;
       this.loadingTimes++;
-      ajax({
+      this.$ajax({
         url: "/getGoods?length=10&lastId=" + this.lastId,
         method: "get",
         timeout: 5000

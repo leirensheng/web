@@ -1,6 +1,6 @@
 <template>
   <div id='shopItem'>
-    <div id='itemLeft' @click=gotoMall(goods.url)>
+    <div id='itemLeft' @click=gotoDetail(goods.id)>
       <img :src="goods.pic" alt="">
     </div>
     <div id='itemRight'>
@@ -50,8 +50,6 @@ export default {
     gotoDetail(id){
       sessionStorage.setItem('item',JSON.stringify(this.goods))
       this.$router.push(`/detail?id=${id}`)
-      // console.log('in',id)
-      //  this.$emit('detail',id)
     },
     gotoMall(url) {
       window.open(url);

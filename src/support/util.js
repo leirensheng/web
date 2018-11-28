@@ -24,7 +24,38 @@ function checkDate(time) {
     //  if()
     // if(date.)
 }
+function getUaSource(ua) {
+    const keywords = {
+        UCBrowser: "uc",
+        MicroMessenger: "weixin",
+        " QQ": "qq",
+        MQQBrowser: "qqBrowser",
+        DingTalk: "dingding",
+        Weibo: "weibo",
+        baidubrowser: "baidubrowser",
+        LieBaoFast: "liebao",
+        SogouMobileBrowser: "sogou",
+        Firefox: "firefox",
+        MxBrowser: "MxBrowser",
+        baiduboxapp: "baiduApp",
+    };
+    if (typeof ua === "string") {
+        for (const index in keywords) {
+            if (ua.indexOf(index) !== -1) {
+                return keywords[index];
+            }
+        }
 
+        if (ua.indexOf("Mac") !== -1) {
+            return "Safari";
+        }
+
+        if (ua.indexOf("Android") !== -1) {
+            return "System";
+        }
+    }
+    return "other";
+}
 function copyContent(fp,ua= window.navigator.userAgent) {
     var input = document.createElement("input");
     input.setAttribute("readonly", "readonly");
@@ -104,5 +135,6 @@ export {
     getWindowHeight,
     getScrollHeight,
     copyContent,
-    getDocumentTop
+    getDocumentTop,
+    getUaSource
 };

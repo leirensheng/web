@@ -2,7 +2,7 @@
   <div class="detailContain">
     <div id='mainPic'>
       <img
-        :src = "data.pict_url"
+        :src="data.pict_url"
         alt=""
       >
     </div>
@@ -23,55 +23,80 @@
         <div>{{data.provcity}}</div>
       </div>
     </div>
-      <div id='detailImgs'>
-        <div
-          v-for="(one,index) in data.small_images"
-          :key="index"
-        >
-          <img
-            :src="one"
-            alt=""
-          >
-
-        </div>
-      </div>
+    <div id='detailImgs'>
       <div
-        id='fixBottom'
-        v-if="data.pict_url"
+        v-for="(one,index) in data.small_images"
+        :key="index"
       >
-        <div id='back' @click="back">返回</div>
-        <div id='price'>券后价 {{item.finalPrice}}</div>
-        <div id='shop' @click="shop">领券购买</div>
+        <img
+          :src="one"
+          alt=""
+        >
+
       </div>
     </div>
+    <div
+      id='fixBottom'
+      v-if="data.pict_url"
+    >
+      <div
+        id='back'
+        @click="back"
+      >返回</div>
+      <div id='price'>券后价 {{item.finalPrice}}元</div>
+      <div
+        id='shop'
+        @click="shop"
+      >领券购买</div>
+    </div>
+    <taokouling
+      :url="taokouling.url"
+      :logoUrl='taokouling.logoUrl'
+      :text="taokouling.text"
+    ></taokouling>
+  </div>
 </template>
 
 <script>
-import { ajax } from "../support/ajax.js";
+import taokouling from "../components/taokouling.vue";
+import { getUaSource } from "../support/util";
 export default {
+  components: {
+    taokouling
+  },
   data() {
     return {
+      taokouling: {
+        text: "",
+        url: "",
+        logoUrl: ""
+      },
       data: "",
       item: ""
     };
   },
   methods: {
-    shop(){
-      window.open(this.item.url);
+    shop() {
+      let source = getUaSource(window.navigator.userAgent);
+      if (source === "weixin") {
+        this.taokouling.url = this.item.url;
+        this.taokouling.logoUrl = this.item.pic;
+        this.taokouling.text = this.data.title;
+      } else {
+        window.open(this.item.url);
+      }
     },
-    back(){
-      this.$router.back()
+    back() {
+      this.$router.back();
     },
     getDetail(id) {
-      console.log("par", id);
-      ajax({
+      this.$ajax({
         url: `/tbDetail?id=${id}`,
         method: "get",
         timeout: 5000
       })
         .then(res => {
           this.data = res.data;
-          console.log(res.data);
         })
         .catch(e => {
           console.log(e);
@@ -152,14 +177,13 @@ $orange: rgb(255, 90, 0);
     background-color: $orange;
     cursor: pointer;
   }
-  #price{
+  #price {
     color: $orange;
     font-size: 1.2rem;
   }
   #shop {
     background-color: red;
-        cursor: pointer;
-
+    cursor: pointer;
   }
 }
 </style>

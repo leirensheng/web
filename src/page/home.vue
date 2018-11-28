@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { ajax } from "../support/ajax.js";
 import {
   getWeekDay,
   checkDate,
@@ -124,7 +123,7 @@ export default {
   },
   methods: {
     initData() {
-      ajax({
+      this.$ajax({
         methods: "get",
         url: "/getNews?length=5"
       })
@@ -171,7 +170,7 @@ export default {
     loadMore() {
       this.loading = true;
       this.loadingTimes++;
-      ajax({
+      $ajax({
         url: "/getNews?length=10&lastId=" + this.lastId,
         method: "get",
         timeout: 5000

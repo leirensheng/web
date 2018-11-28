@@ -1,5 +1,5 @@
 <template>
- <div id='taobao'>
+  <div id='taobao'>
     <div class='verytop'>
       <div class='webName'>超级搜索</div>
       <div class='webIntro'>优惠好物</div>
@@ -43,23 +43,18 @@
         @loadingMore="loadMore"
       ></bottom-loading>
     </div>
-    <vdialog
-      :loading="taokouling.loading"
-      :visible="taokouling.visible"
-      :btns="taokouling.btns"
-      :title="'淘口令'"
-      :content="taokouling.content"
-      @close=closeDialog
-      @copy=handleCopy
-    ></vdialog>
-  </div> 
+    <taokouling
+      :url="taokouling.url"
+      :logoUrl="taokouling.logoUrl"
+      :text="taokouling.text"
+    ></taokouling>
+  </div>
 </template>
 
 <script>
 import loading from "../components/loading.vue";
 import bottomLoading from "../components/bottomLoading.vue";
-import vdialog from "../components/vdialog.vue";
-import { ajax } from "../support/ajax.js";
+import taokouling from "../components/taokouling.vue";
 import {
   getWeekDay,
   checkDate,
@@ -74,13 +69,13 @@ export default {
     taobaoItem,
     loading,
     bottomLoading,
-    vdialog
+    taokouling
   },
   methods: {
     search() {
       this.searching = true;
       this.noMore = false;
-      ajax({
+      this.$ajax({
         url: `/tbSearch?page=${this.searchPage}&q=${this.searchKeyword}`,
         method: "get",
         timeout: 5000
@@ -96,44 +91,12 @@ export default {
           this.searching = false;
         });
     },
-    handleCopy(str) {
-      console.log(str);
-      copyContent(str);
-      this.taokouling.content = "已复制，请打开淘宝";
-      setTimeout(() => {
-        this.taokouling.visible = false;
-      }, 2000);
-    },
-    closeDialog() {
-      this.taokouling.visible = false;
-    },
     handleGenerate(url, logoUrl, text) {
-      this.taokouling.visible = true;
-      this.taokouling.loading = true;
-
-      ajax({
-        url: "/getTaokouling",
-        method: "post",
-        headers: {
-          "content-type": "application/json"
-        },
-        data: JSON.stringify({
-          url: "https:" + url,
-          logo: logoUrl,
-          text
-        })
-      })
-        .then(res => {
-          this.taokouling.loading = false;
-          this.taokouling.content = res.data.model;
-        })
-        .catch(e => {
-          // console.log(e)
-          this.taokouling.content = "网络故障，请重试";
-          this.taokouling.loading = false;
-        });
-      //  copyContent()
+      this.taokouling.url = url;
+      this.taokouling.logoUrl = logoUrl;
+      this.taokouling.text = text;
     },
+
     loadMore() {
       this.loading = true;
       this.records = this.allData.slice(
@@ -162,21 +125,9 @@ export default {
   data() {
     return {
       taokouling: {
-        visible: false,
-        loading: false,
-        content: "",
-        btns: [
-          {
-            id: "copy",
-            name: "复制",
-            color: "red"
-          },
-          {
-            id: "close",
-            name: "关闭",
-            color: "green"
-          }
-        ]
+        url: "",
+        logoUrl: "",
+        text: ""
       },
       onePageNum: 7,
       searchKeyword: "",
