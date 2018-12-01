@@ -35,12 +35,12 @@ export default {
         {
           id: "copy",
           name: "复制",
-          color: "red"
+          color: "rgb(255, 90, 0)"
         },
         {
           id: "close",
           name: "关闭",
-          color: "green"
+          color: "rgb(120,120,120)"
         }
       ]
     };
@@ -48,10 +48,12 @@ export default {
   methods: {
     handleCopy(str) {
       copyContent(str);
+      let temp=this.btns.shift()
       this.content = "已复制，请打开淘宝";
       this.$emit('reset')
       setTimeout(() => {
         this.visible = false;
+        this.btns.unshift(temp)
       }, 2000);
     },
     closeDialog() {

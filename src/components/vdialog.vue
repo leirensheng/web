@@ -2,11 +2,11 @@
   <div id='dialogCon' v-if='visible'>
     <div id='dialog'>
       <!-- <div> -->
-        <loading2  v-if="loading" id='loading'></loading2>
+        <loading2  v-show="loading" id='loading'></loading2>
       <!-- </div> -->
       <template v-if="!loading">
         <div id='header'>
-          {{title}}
+           <div>{{title}}</div>
         </div>
         <div id='content'>
           {{content}}
@@ -77,7 +77,12 @@ $orange: rgb(255, 90, 0);
       border-radius: 9px 9px 0 0;
       background-color: $orange;
       color: white;
-      padding: 0.4rem;
+      padding: 0.4rem 0;
+      flex: 0  0 auto;
+      div{
+        width: 90vw;
+        margin-left: 1rem;
+      }
     }
     #content {
       color: $orange;

@@ -168,9 +168,9 @@ $orange: rgb(255, 90, 0);
   right: 0;
   left: 0;
   background-color: white;
-  box-sizing: border-box;
   padding: 0.6rem;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   div {
     border-radius: 0.7rem;
