@@ -6,10 +6,12 @@
       <!-- </div> -->
       <template v-if="!loading">
         <div id='header'>
-           <div>{{title}}</div>
+           <div>
+             <span>{{title}}</span>
+           </div>
         </div>
-        <div id='content'>
-          {{content}}
+        <div id='contentCon'>
+           <div :class="contentShow?'contentShow':'contentHide' "  id='content'>{{content}}</div>
         </div>
         <div id='btn'>
           <div v-for="(one,index) in btns" :key='index' @click="handleClick(one.id)" :style="{'background-color':one.color}">{{one.name}}</div>
@@ -24,6 +26,23 @@ import loading2 from "./loading2.vue";
 export default {
   components: {
     loading2
+  },
+  data(){
+     return {
+       contentShow:true
+     }
+  },
+  watch:{
+      content:{
+        handler(val,oldVal){
+          if(val.includes('已复制') && oldVal){
+            this.contentShow = false
+            setTimeout(()=>{
+                this.contentShow = true
+            },300)
+          }
+        }
+      }
   },
   props: {
     width: { default: 4 },
@@ -74,19 +93,30 @@ $orange: rgb(255, 90, 0);
       // height: 4rem;
     }
     #header {
+      div{
       border-radius: 9px 9px 0 0;
       background-color: $orange;
       color: white;
       padding: 0.4rem 0;
-      flex: 0  0 auto;
-      div{
-        width: 90vw;
-        margin-left: 1rem;
+      span{
+        margin-left: 1rem
+      }
+        // width: 90vw;
+        // padding-left: 1rem;
       }
     }
-    #content {
+    #contentCon {
       color: $orange;
       text-align: center;
+      .contentShow{
+        opacity: 1;
+      }
+      .contentHide{
+        opacity: 0;
+      }
+      #content{
+        transition: opacity 0.5s;
+      }
     }
     #btn {
       display: flex;
