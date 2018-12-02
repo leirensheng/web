@@ -60,7 +60,7 @@ export default {
     },
     shop() {
       let source = getUaSource(window.navigator.userAgent);
-      if (source === "weixin" && !referer) {
+      if (source === "weixin" && !this.referer) {
         this.taokouling.url = this.item.url;
         this.taokouling.logoUrl = this.item.pic;
         this.taokouling.text = this.data.title;
@@ -101,7 +101,8 @@ export default {
       this.referer = "wx";
       this.kouling = tpwd;
       this.item = {
-        finalPrice
+        finalPrice,
+        url
       };
     } else {
       this.getDetail(this.$route.query.id);
