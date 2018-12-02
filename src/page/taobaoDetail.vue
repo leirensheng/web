@@ -64,7 +64,7 @@ export default {
         this.taokouling.url = this.item.url;
         this.taokouling.logoUrl = this.item.pic;
         this.taokouling.text = this.data.title;
-      } else if (this.referer == "wx") {
+      } else if (this.referer == "wx"&& source=='weixin') {
         this.taokouling.defaultData = this.kouling;
       } else {
         window.open(this.item.url);
