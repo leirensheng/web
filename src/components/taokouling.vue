@@ -23,9 +23,18 @@ export default {
            this.handleGenerate(url,this.logoUrl,this.text)
          }
        }
+     },
+     defaultData:{
+       handler(val){
+         console.log('in')
+        if(val){
+          this.content=val
+          this.visible = true;
+        }
+       }
      }
   },
-    props: [`url`, `logoUrl`, `text`],
+    props: [`url`, `logoUrl`, `text`,`defaultData`],
   data() {
     return {
       visible:false,

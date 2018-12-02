@@ -33,7 +33,7 @@
 
     <div
       class="loadMoreContainer"
-      v-if="records.length"
+      v-if="records.length && !searching"
     >
       <bottom-loading
         :loading="loading"
@@ -81,7 +81,7 @@ export default {
       this.$ajax({
         url: `/tbSearch?page=${this.searchPage}&q=${this.searchKeyword}`,
         method: "get",
-        timeout: 5000
+        timeout: 15000
       })
         .then(res => {
           this.allData = res.data;

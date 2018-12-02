@@ -1,18 +1,12 @@
 <template>
   <div class="detailContain">
     <div id='mainPic'>
-      <img
-        :src="data.pict_url"
-        alt=""
-      >
+      <img :src="data.pict_url" alt="">
     </div>
-    <div
-      id='desc'
-      v-if="data.pict_url"
-    >
+    <div id='desc' v-if="data.pict_url">
       <!-- <div class="row"> -->
       <div id='top'>
-        <span id='mall'>{{item.mall}}</span>
+        <span id='mall'>{{data.user_type?'天猫':'淘宝'}}</span>
         <span id='title'>{{data.title}}</span>
       </div>
 
@@ -24,37 +18,17 @@
       </div>
     </div>
     <div id='detailImgs'>
-      <div
-        v-for="(one,index) in data.small_images"
-        :key="index"
-      >
-        <img
-          :src="one"
-          alt=""
-        >
+      <div v-for="(one,index) in data.small_images" :key="index">
+        <img :src="one" alt="">
 
       </div>
     </div>
-    <div
-      id='fixBottom'
-      v-if="data.pict_url"
-    >
-      <div
-        id='back'
-        @click="back"
-      >返回</div>
+    <div id='fixBottom' v-if="data.pict_url">
+      <div id='back' @click="back">返回</div>
       <div id='price'>券后价 {{item.finalPrice}}元</div>
-      <div
-        id='shop'
-        @click="shop"
-      >领券购买</div>
+      <div id='shop' @click="shop">领券购买</div>
     </div>
-    <taokouling
-      @reset='handleReset'
-      :url="taokouling.url"
-      :logoUrl='taokouling.logoUrl'
-      :text="taokouling.text"
-    ></taokouling>
+    <taokouling :defaultData="taokouling.defaultData" @reset='handleReset' :url="taokouling.url" :logoUrl='taokouling.logoUrl' :text="taokouling.text"></taokouling>
   </div>
 </template>
 
@@ -70,28 +44,38 @@ export default {
       taokouling: {
         text: "",
         url: "",
-        logoUrl: ""
+        logoUrl: "",
+        defaultData: ""
       },
+      kouling: "",
       data: "",
-      item: ""
+      item: "",
+      referer: ""
     };
   },
   methods: {
-      handleReset(){
-      this.taokouling.url=this.taokouling.logoUrl=this.taokouling.text=''
+    handleReset() {
+      this.taokouling.url = this.taokouling.logoUrl = this.taokouling.text = this.taokouling.defaultData =
+        "";
     },
     shop() {
       let source = getUaSource(window.navigator.userAgent);
-      if (source === "weixin") {
+      if (source === "weixin" && !referer) {
         this.taokouling.url = this.item.url;
         this.taokouling.logoUrl = this.item.pic;
         this.taokouling.text = this.data.title;
+      } else if (this.referer == "wx") {
+        this.taokouling.defaultData = this.kouling;
       } else {
         window.open(this.item.url);
       }
     },
     back() {
-      this.$router.back();
+      if (this.referer) {
+        this.$router.push("/taobao");
+      } else {
+        this.$router.back();
+      }
     },
     getDetail(id) {
       this.$ajax({
@@ -108,8 +92,22 @@ export default {
     }
   },
   mounted() {
-    this.getDetail(this.$route.query.id);
-    this.item = JSON.parse(sessionStorage.getItem("item"));
+    if (this.$route.query.data) {
+      let { id, tpwd, url, finalPrice } = JSON.parse(
+        decodeURIComponent(this.$route.query.data)
+      );
+      console.log(id, tpwd, url);
+      this.getDetail(id);
+      this.referer = "wx";
+      this.kouling = tpwd;
+      this.item = {
+        finalPrice
+      };
+    } else {
+      this.getDetail(this.$route.query.id);
+      this.item = JSON.parse(sessionStorage.getItem("item"));
+    }
+
     //  console.log()
   }
 };
