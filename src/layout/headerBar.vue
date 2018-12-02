@@ -1,7 +1,7 @@
 <template>
   <div id="headerbar" :class="hederShow?'':'hide'">
     <div id='icon' @click="goHome()">
-      <div>i简报</div>
+      <div>券你省点钱</div>
     </div>
 
     <div id='menu0'>
