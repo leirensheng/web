@@ -89,7 +89,7 @@ $orange: rgb(255, 90, 0);
     font-family: "楷体","楷体_GB2312";
     cursor: pointer;
     height: 100%;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     background-color: $orange;
     color: white;
     display: flex;
