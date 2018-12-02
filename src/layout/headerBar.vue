@@ -86,15 +86,16 @@ $orange: rgb(255, 90, 0);
   // justify-content: space-between;
   transition: top 0.5s;
   #icon {
+    font-family: "楷体","楷体_GB2312";
     cursor: pointer;
     height: 100%;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     background-color: $orange;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 3.5rem;
+    width: 8rem;
     text-align: center;
   }
   #menu0 {
