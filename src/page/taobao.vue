@@ -36,6 +36,7 @@
       v-if="records.length && !searching"
     >
       <bottom-loading
+        v-if="records.length>3"
         :loading="loading"
         :noMore="noMore"
         :loadingTimes="loadingTimes"
@@ -61,7 +62,7 @@ import {
   checkDate,
   getWindowHeight,
   getDocumentTop,
-  getScrollHeight,
+  getScrollHeight
 } from "../support/util";
 import taobaoItem from "../components/taobaoItem";
 export default {
@@ -72,8 +73,8 @@ export default {
     taokouling
   },
   methods: {
-    handleReset(){
-      this.taokouling.url=this.taokouling.logoUrl=this.taokouling.text=''
+    handleReset() {
+      this.taokouling.url = this.taokouling.logoUrl = this.taokouling.text = "";
     },
     search() {
       this.searching = true;
@@ -113,17 +114,21 @@ export default {
         this.noMore = true;
       }
     },
-    bindEvent() {
-      window.addEventListener("scroll", () => {
-        window.requestAnimationFrame(() => {
-          if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
-            if (!this.loading && !this.noMore) {
-              this.loadMore();
-            }
+    scrollHandler() {
+      window.requestAnimationFrame(() => {
+        if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
+          if (!this.loading && !this.noMore) {
+            this.loadMore();
           }
-        });
+        }
       });
+    },
+    bindEvent() {
+      window.addEventListener("scroll", this.scrollHandler);
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.scrollHandler);
   },
   data() {
     return {

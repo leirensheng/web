@@ -4,11 +4,18 @@
       <div class='webName'>i简报</div>
       <div class='webIntro'>每天3分钟互联网简报</div>
     </div>
-    <div id='loadingWrap' v-if='!records.length'>
+    <div
+      id='loadingWrap'
+      v-if='!records.length'
+    >
       <loading id='loading'></loading>
     </div>
 
-    <div id='oneDay' v-for='(oneDay,index1) in records' :key='index1'>
+    <div
+      id='oneDay'
+      v-for='(oneDay,index1) in records'
+      :key='index1'
+    >
       <div v-if='oneDay.type=="article"'>
         <div id='dateRow'>
           <span id='left'>
@@ -17,7 +24,12 @@
           <span id='right'> {{oneDay.weekDay}}</span>
         </div>
         <div>
-          <message v-for='(article,index) in oneDay.data' :key='index' :article='article' :articleIndex='index+1'></message>
+          <message
+            v-for='(article,index) in oneDay.data'
+            :key='index'
+            :article='article'
+            :articleIndex='index+1'
+          ></message>
         </div>
       </div>
       <div v-else-if='oneDay.type=="ad"'>
@@ -25,8 +37,17 @@
       </div>
     </div>
 
-    <div class="loadMoreContainer" v-if="records.length">
-      <bottom-loading :noMore="noMore" :loading="loading" :loadingTimes="loadingTimes" :loadingErr=loadingErr @loadingMore="loadMore"></bottom-loading>
+    <div
+      class="loadMoreContainer"
+      v-if="records.length"
+    >
+      <bottom-loading
+        :noMore="noMore"
+        :loading="loading"
+        :loadingTimes="loadingTimes"
+        :loadingErr=loadingErr
+        @loadingMore="loadMore"
+      ></bottom-loading>
     </div>
 
   </div>
@@ -48,7 +69,7 @@ import advertise from "../components/advertise";
 export default {
   data() {
     return {
-      noMore:false,
+      noMore: false,
       loading: false,
       refresh: false,
       loadingTimes: 0,
@@ -176,11 +197,10 @@ export default {
         timeout: 5000
       })
         .then(resData => {
-          if(resData.length){
-          this.handleData(resData);
-          }
-          else{
-            this.noMore =true
+          if (resData.length) {
+            this.handleData(resData);
+          } else {
+            this.noMore = true;
           }
           this.loadingErr = false;
         })
@@ -191,17 +211,21 @@ export default {
           this.loading = false;
         });
     },
-    bindEvent() {
-      window.addEventListener("scroll", () => {
-        window.requestAnimationFrame(() => {
-          if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
-            if (this.loadingTimes <= 2 && !this.loading) {
-              this.loadMore();
-            }
+    scrollHandler() {
+      window.requestAnimationFrame(() => {
+        if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
+          if (this.loadingTimes <= 2 && !this.loading) {
+            this.loadMore();
           }
-        });
+        }
       });
+    },
+    bindEvent() {
+      window.addEventListener("scroll", this.scrollHandler);
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.scrollHandler);
   },
   mounted() {
     document.dispatchEvent(new Event("render-event"));

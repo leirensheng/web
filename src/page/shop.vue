@@ -71,17 +71,21 @@ export default {
           this.loading = false;
         });
     },
-    bindEvent() {
-      window.addEventListener("scroll", () => {
-        window.requestAnimationFrame(() => {
+    scrollHandler(){
+       window.requestAnimationFrame(() => {
           if (getScrollHeight() <= getWindowHeight() + getDocumentTop() + 25) {
             if (this.loadingTimes <= 2 && !this.loading) {
               this.loadMore();
             }
           }
         });
-      });
+    },
+    bindEvent() {
+      window.addEventListener("scroll", this.scrollHandler);
     }
+  },
+  beforeDestroy(){
+      window.removeEventListener('scroll',this.scrollHandler)
   },
   data() {
     return {
