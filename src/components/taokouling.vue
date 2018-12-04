@@ -79,7 +79,7 @@ export default {
           "content-type": "application/json"
         },
         data: JSON.stringify({
-          url: "https:" + url,
+          url: url.indexOf('http')==-1? ("https:" + url):url,
           logo: logoUrl,
           text
         })
