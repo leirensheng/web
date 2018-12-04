@@ -79,8 +79,15 @@ export default {
     search() {
       this.searching = true;
       this.noMore = false;
+      let q=this.searchKeyword
+      let reg=/(￥.*￥)/ig
+      let result= reg.exec(this.searchKeyword)
+      
+      if(result[1]){
+         q=result[1]
+      }
       this.$ajax({
-        url: `/tbSearch?page=${this.searchPage}&q=${this.searchKeyword}`,
+        url: `/tbSearch?page=${this.searchPage}&q=${q}`,
         method: "get",
         timeout: 15000
       })
