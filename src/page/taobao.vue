@@ -83,7 +83,7 @@ export default {
       let reg=/(￥.*￥)/ig
       let result= reg.exec(this.searchKeyword)
       
-      if(result[1]){
+      if(result&&result[1]){
          q=result[1]
       }
       this.$ajax({
